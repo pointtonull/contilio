@@ -1,0 +1,85 @@
+[project]
+name = "fastapi-sqlalchemy-template"
+version = "0"
+description = "Async FastAPI"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [
+    { email = "point.to+repo@gmail.com" },
+    { name = "Carlos Cabrera"}
+]
+license = "MIT License"
+dependencies = [
+    "fastapi>=0.76",
+    "lite-bootstrap[fastapi-all]",
+    "advanced-alchemy",
+    "pydantic-settings",
+    "granian[uvloop]",
+    # database
+    "alembic",
+    "psycopg2",
+    "sqlalchemy[asyncio]",
+    "asyncpg",
+    # tracing
+    "opentelemetry-instrumentation-asyncpg",
+    "opentelemetry-instrumentation-sqlalchemy",
+]
+
+[dependency-groups]
+dev = [
+    "polyfactory",
+    "httpx",
+    "pytest",
+    "pytest-cov",
+    "pytest-asyncio",
+    "asgi_lifespan",
+    "ruff",
+    "mypy",
+    "asyncpg-stubs",
+]
+
+[tool.ruff]
+fix = true
+unsafe-fixes = true
+line-length = 120
+target-version = "py313"
+extend-exclude = ["bin"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D1", # allow missing docstrings
+    "INP", # ignore flake8-no-pep420
+    "B008", # function-call-in-default-argument
+    "ANN204", # no typings for __init__
+    "D203", # "one-blank-line-before-class" conflicting with D211
+    "D213", # "multi-line-summary-second-line" conflicting with D212
+    "COM812", # flake8-commas "Trailing comma missing"
+    "ISC001", # flake8-implicit-str-concat
+    "S105", # Possible hardcoded password
+]
+isort.lines-after-imports = 2
+isort.no-lines-before = ["standard-library", "local-folder"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*.py" = [
+    "S101", # allow asserts
+]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+pretty = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=. --cov-report term-missing"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.coverage.report]
+exclude_also = [
+    "if typing.TYPE_CHECKING:",
+]
+
+[tool.coverage.run]
+concurrency = ["thread", "greenlet"]
