@@ -1,5 +1,5 @@
 [project]
-name = "fastapi-sqlalchemy-template"
+name = "contilio-transport"
 version = "0"
 description = "Async FastAPI"
 readme = "README.md"
