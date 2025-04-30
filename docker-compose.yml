@@ -1,0 +1,31 @@
+services:
+  application:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    volumes:
+      - .:/code
+      - /code/.venv
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SERVICE_DEBUG=true
+      - SERVICE_ENVIRONMENT=ci
+      - DB_DSN=postgresql+asyncpg://postgres:password@db/postgres
+    command:
+      ["uv", "run", "python", "-m", "app"]
+
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 1s
+      timeout: 5s
+      retries: 15
