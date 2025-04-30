@@ -1,8 +1,9 @@
-# TODO
+# Current
 
+- [-] setup: replace PostgreSQL with SQLite
+- [-] setup: validate dev env: setup following readme
 - [-] setup: validate dev env
 - [ ] setup: test tests
-- [ ] setup: replace PostgreSQL with SQLite in db session
 - [ ] setup: Dockerfile and docker-compose (no Postgres)
 - [ ] setup: FastAPI endpoint stub
 - [ ] setup: use granian for efficiency, multi-threading, and low latency
@@ -17,4 +18,4 @@
 - [ ] test: error case with excessive wait
 - [x] setup: repository, and project structure
 
--
+# Archive
