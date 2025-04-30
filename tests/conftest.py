@@ -1,15 +1,44 @@
 import typing
 
 import fastapi
-import modern_di
-import modern_di_fastapi
 import pytest
 from asgi_lifespan import LifespanManager
 from httpx import ASGITransport, AsyncClient
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncConnection, AsyncEngine, AsyncSession, create_async_engine
+from sqlalchemy.orm import sessionmaker
 
-from app import ioc
 from app.application import build_app
+from app.repositories import CardsService, DecksService
+from app.settings import settings
+
+
+@pytest.fixture(scope="session")
+def engine() -> AsyncEngine:
+    return create_async_engine(settings.database_uri, echo=False, future=True)
+
+
+@pytest.fixture
+async def connection(engine: AsyncEngine) -> typing.AsyncIterator[AsyncConnection]:
+    async with engine.connect() as connection:
+        transaction = await connection.begin()
+        await connection.begin_nested()
+        try:
+            yield connection
+        finally:
+            if connection.in_transaction():
+                await transaction.rollback()
+
+
+@pytest.fixture
+async def db_session(connection: AsyncConnection) -> typing.AsyncIterator[AsyncSession]:
+    async_session_factory = sessionmaker(
+        bind=connection,
+        class_=AsyncSession,
+        expire_on_commit=False,
+        autoflush=False,
+    )
+    async with async_session_factory() as session:
+        yield session
 
 
 @pytest.fixture
@@ -29,22 +58,10 @@ async def client(app: fastapi.FastAPI) -> typing.AsyncIterator[AsyncClient]:
 
 
 @pytest.fixture
-def di_container(app: fastapi.FastAPI) -> modern_di.Container:
-    return modern_di_fastapi.fetch_di_container(app)
+def decks_service(db_session: AsyncSession) -> DecksService:
+    return DecksService(session=db_session)
 
 
-@pytest.fixture(autouse=True)
-async def db_session(di_container: modern_di.Container) -> typing.AsyncIterator[AsyncSession]:
-    engine = await ioc.Dependencies.database_engine.async_resolve(di_container)
-    connection = await engine.connect()
-    transaction = await connection.begin()
-    await connection.begin_nested()
-    ioc.Dependencies.database_engine.override(connection, di_container)
-
-    try:
-        yield AsyncSession(connection, expire_on_commit=False, autoflush=False)
-    finally:
-        if connection.in_transaction():
-            await transaction.rollback()
-        await connection.close()
-        await engine.dispose()
+@pytest.fixture
+def cards_service(db_session: AsyncSession) -> CardsService:
+    return CardsService(session=db_session)

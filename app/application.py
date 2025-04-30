@@ -1,7 +1,6 @@
 import dataclasses
 
 import fastapi
-import modern_di_fastapi
 from advanced_alchemy.exceptions import DuplicateKeyError
 from lite_bootstrap import FastAPIBootstrapper
 from opentelemetry.instrumentation.asyncpg import AsyncPGInstrumentor
@@ -26,7 +25,6 @@ def build_app() -> fastapi.FastAPI:
     )
     bootstrapper = FastAPIBootstrapper(bootstrap_config=bootstrap_config)
     app: fastapi.FastAPI = bootstrapper.bootstrap()
-    modern_di_fastapi.setup_di(app)
     include_routers(app)
     app.add_exception_handler(
         DuplicateKeyError,
