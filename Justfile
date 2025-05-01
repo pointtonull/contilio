@@ -23,7 +23,8 @@ test *args:
 
 # Run tests in test-driven development mode
 tdd:
-    {{compose}} run {{service}} sh -c "sleep 1 && {{alembic}} downgrade base && {{alembic}} upgrade head && {{watch}} '{{pytest}} --stepwise --no-cov-on-fail --showlocals'"
+    just down
+    {{compose}} run {{service}} sh -c "sleep 1 && {{alembic}} downgrade base && {{alembic}} upgrade head && {{watch}} '{{pytest}} --stepwise --no-cov-on-fail --capture=no --show-capture=no --tb=long --showlocals'"
 
 # Run the application
 run:
