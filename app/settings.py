@@ -12,7 +12,6 @@ class Settings(pydantic_settings.BaseSettings):
     service_debug: bool = False
     log_level: str = "info"
 
-    db_dsn: str = "postgresql+asyncpg://postgres:password@db/postgres"
     db_pool_size: int = 5
     db_max_overflow: int = 0
     db_pool_pre_ping: bool = True
@@ -28,6 +27,12 @@ class Settings(pydantic_settings.BaseSettings):
     cors_allowed_methods: list[str] = [""]
     cors_allowed_headers: list[str] = [""]
     cors_exposed_headers: list[str] = []
+
+    @property
+    def db_dsn(self) -> str:
+        if self.service_environment == "test":
+            return "sqlite+aiosqlite:///:memory:"
+        return f"sqlite+aiosqlite:///./transport-{self.service_environment}.db"
 
     @property
     def db_dsn_parsed(self) -> URL:

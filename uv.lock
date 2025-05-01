@@ -18,6 +18,18 @@ wheels = [
 ]
 
 [[package]]
+name = "aiosqlite"
+version = "0.21.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/13/7d/8bca2bf9a247c2c5dfeec1d7a5f40db6518f88d314b8bca9da29670d2671/aiosqlite-0.21.0.tar.gz", hash = "sha256:131bb8056daa3bc875608c631c678cda73922a2d4ba8aec373b19f18c17e7aa3", size = 13454, upload-time = "2025-02-03T07:30:16.235Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f5/10/6c25ed6de94c49f88a91fa5018cb4c0f3625f31d5be9f771ebe5cc7cd506/aiosqlite-0.21.0-py3-none-any.whl", hash = "sha256:2549cf4057f95f53dcba16f2b64e8e2791d7e1adedb13197dd8ed77bb226d7d0", size = 15792, upload-time = "2025-02-03T07:30:13.6Z" },
+]
+
+[[package]]
 name = "alembic"
 version = "1.15.2"
 source = { registry = "https://pypi.org/simple" }
@@ -161,12 +173,12 @@ version = "0"
 source = { virtual = "." }
 dependencies = [
     { name = "advanced-alchemy" },
+    { name = "aiosqlite" },
     { name = "alembic" },
-    { name = "asyncpg" },
     { name = "fastapi" },
     { name = "granian", extra = ["uvloop"] },
     { name = "lite-bootstrap", extra = ["fastapi-all"] },
-    { name = "opentelemetry-instrumentation-asyncpg" },
+    { name = "modern-di-fastapi" },
     { name = "opentelemetry-instrumentation-sqlalchemy" },
     { name = "pydantic-settings" },
     { name = "sqlalchemy", extra = ["asyncio"] },
@@ -182,18 +194,19 @@ dev = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
+    { name = "pytest-watch" },
     { name = "ruff" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "advanced-alchemy" },
+    { name = "aiosqlite" },
     { name = "alembic" },
-    { name = "asyncpg" },
     { name = "fastapi", specifier = ">=0.76" },
     { name = "granian", extras = ["uvloop"] },
     { name = "lite-bootstrap", extras = ["fastapi-all"] },
-    { name = "opentelemetry-instrumentation-asyncpg" },
+    { name = "modern-di-fastapi" },
     { name = "opentelemetry-instrumentation-sqlalchemy" },
     { name = "pydantic-settings" },
     { name = "sqlalchemy", extras = ["asyncio"] },
@@ -628,20 +641,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/21/a7/bba046a42000ef20fa6a8dd0be2e7c15c7dd0d1aad7d886afcb8ca35a4f1/opentelemetry_instrumentation_asgi-0.53b1.tar.gz", hash = "sha256:74b7a023787c574f2dd5ed9376e5b921c14501ba1b281ec8527eaadc442563e7", size = 24231, upload-time = "2025-04-15T16:04:50.891Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/6c/b1/fb7bef68b08025659d6fe90839e38603c79c77c4b6af53f82f8fb66a1a2a/opentelemetry_instrumentation_asgi-0.53b1-py3-none-any.whl", hash = "sha256:5f8422eff0a9e3ecb052a8726335925610bb9bd7bb1acf1619c2c28dc3c04842", size = 16337, upload-time = "2025-04-15T16:03:52.582Z" },
-]
-
-[[package]]
-name = "opentelemetry-instrumentation-asyncpg"
-version = "0.53b1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "opentelemetry-api" },
-    { name = "opentelemetry-instrumentation" },
-    { name = "opentelemetry-semantic-conventions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/35/3e/9e8f49eaf317fe37b2f11856fa6fe37e7eb960b46e162547f5d01d7c81f3/opentelemetry_instrumentation_asyncpg-0.53b1.tar.gz", hash = "sha256:66a9780326753c96b82220094e0902117d53d98442baab087b5f0198e28ac01c", size = 8718, upload-time = "2025-04-15T16:04:53.077Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/84/b4/79342136a5447a25437b8327db08436b2dc1ac7b5c85c562a66f6f8c1e12/opentelemetry_instrumentation_asyncpg-0.53b1-py3-none-any.whl", hash = "sha256:afe1e7b547adf0835037bbff40992aa177c3d02f481b9b2c0fadcdd68e6e4708", size = 10061, upload-time = "2025-04-15T16:03:55.821Z" },
 ]
 
 [[package]]

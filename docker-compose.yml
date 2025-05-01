@@ -7,25 +7,20 @@ services:
     volumes:
       - .:/code
       - /code/.venv
+      - type: volume
+        source: transport_data
+        target: /code/transport_data
+        read_only: false
+        # Mounted only in non-test environments
+        # Runtime logic in settings.py should switch DB path based on APP_ENV
     ports:
       - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
       - SERVICE_DEBUG=true
       - SERVICE_ENVIRONMENT=ci
-      - DB_DSN=postgresql+asyncpg://postgres:password@db/postgres
+      - DB_DSN=sqlite+aiosqlite:///./transport_data/transport.db
     command:
       ["uv", "run", "python", "-m", "app"]
 
-  db:
-    image: postgres:14
-    restart: always
-    environment:
-      - POSTGRES_PASSWORD=password
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
-      interval: 1s
-      timeout: 5s
-      retries: 15
+volumes:
+  transport_data:

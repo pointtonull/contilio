@@ -9,7 +9,7 @@ from app.settings import settings
 
 def get_dsn() -> URL:
     db_dsn = settings.db_dsn_parsed
-    return db_dsn.set(drivername="postgresql")
+    return db_dsn.set(drivername="sqlite")
 
 
 # this is the Alembic Config object, which provides
