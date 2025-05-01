@@ -1,7 +1,6 @@
 # Current
 
-- [-] setup: FastAPI endpoint stub
-- [ ] setup: SQLAlchemy models for train data
+- [-] endpoints: tests
 - [ ] setup: schema to store API responses (station times)
 - [ ] setup: function to call TransportAPI
 - [ ] setup: function to process journey (calculate arrival)
@@ -20,5 +19,7 @@
 - [x] setup: test tests
 - [x] setup: Dockerfile and docker-compose (no Postgres)
 - [x] setup: use granian for efficiency, multi-threading, and low latency
+- [x] setup: FastAPI endpoint stub
+- [x] setup: SQLAlchemy models for train data
 
 # Archive
