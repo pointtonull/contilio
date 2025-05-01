@@ -7,7 +7,7 @@ compose := "docker compose"
 service := "application"
 alembic := "uv run alembic"
 pytest := "uv run pytest"
-watch := "uv run pytest-watch --wait --clear tests app --runner"
+watch := "uv run pytest-watch --wait tests app --runner"
 
 # Bring down docker-compose services
 down:
