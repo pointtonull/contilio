@@ -1,12 +1,14 @@
+import os
+
 import pydantic_settings
 from lite_bootstrap import FastAPIConfig
 from sqlalchemy.engine.url import URL, make_url
 
 
 class Settings(pydantic_settings.BaseSettings):
-    service_name: str = "FastAPI template"
-    service_version: str = "1.0.0"
-    service_environment: str = "local"
+    service_name: str = "Transport"
+    service_version: str = "0.0.1"
+    service_environment: str = os.getenv("APP_ENV", "local")
     service_debug: bool = False
     log_level: str = "info"
 
