@@ -48,3 +48,27 @@ async def db_session(di_container: modern_di.Container) -> typing.AsyncIterator[
             await transaction.rollback()
         await connection.close()
         await engine.dispose()
+
+
+def pytest_runtest_makereport(item, call):
+    # Attach captured output to the item object
+    pass
+    # if call.when == "call":
+    #     item._stdout = call.capstdout
+    #     item._stderr = call.capstderr
+    #     item._log = getattr(call, "caplog", "")
+
+
+def pytest_terminal_summary(terminalreporter, exitstatus, config):
+    terminalreporter.summary_warnings()
+    terminalreporter.summary_passes()
+    terminalreporter.summary_xpasses()
+    try:
+        return (yield)
+    finally:
+        terminalreporter.short_test_summary()
+        # Display any extra warnings from teardown here (if any).
+        terminalreporter.summary_warnings()
+    terminalreporter.summary_errors()
+    terminalreporter.summary_failures()
+    terminalreporter.summary_xfailures()
