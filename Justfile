@@ -7,7 +7,7 @@ compose := "docker compose"
 service := "application"
 alembic := "uv run alembic"
 pytest := "uv run pytest"
-watch := "uv run pytest-watch tests app --runner 'uv run pytest --stepwise --no-cov-on-fail --tb=short'"
+watch := "uv run pytest-watch --wait --clear tests app --runner"
 
 # Bring down docker-compose services
 down:
@@ -23,7 +23,7 @@ test *args:
 
 # Run tests in test-driven development mode
 tdd:
-    {{compose}} run {{service}} sh -c "sleep 1 && {{alembic}} downgrade base && {{alembic}} upgrade head && {{watch}}"
+    {{compose}} run {{service}} sh -c "sleep 1 && {{alembic}} downgrade base && {{alembic}} upgrade head && {{watch}} '{{pytest}} --stepwise --no-cov-on-fail --tb=short'"
 
 # Run the application
 run:
