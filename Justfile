@@ -1,27 +1,48 @@
+set dotenv-load := true
+
 default: install lint build test
 
+# Variables
+compose := "docker compose"
+service := "application"
+alembic := "uv run alembic"
+pytest := "uv run pytest"
+watch := "uv run pytest-watch tests app --runner 'uv run pytest --stepwise --no-cov-on-fail --tb=short'"
+
+# Bring down docker-compose services
 down:
-    docker compose down --remove-orphans
+    {{compose}} down --remove-orphans
 
+# Open a shell in the application container
 sh:
-    docker compose run --service-ports application bash
+    {{compose}} run --service-ports {{service}} bash
 
-test *args: down && down
-    docker compose run application sh -c "sleep 1 && uv run alembic downgrade base && uv run alembic upgrade head && uv run pytest {{ args }}"
+# Run tests with database reset
+test *args:
+    {{compose}} run {{service}} sh -c "sleep 1 && {{alembic}} downgrade base && {{alembic}} upgrade head && {{pytest}} {{args}}"
 
+# Run tests in test-driven development mode
+tdd:
+    {{compose}} run {{service}} sh -c "sleep 1 && {{alembic}} downgrade base && {{alembic}} upgrade head && {{watch}}"
+
+# Run the application
 run:
-    docker compose run --service-ports application sh -c "sleep 1 && uv run alembic upgrade head && uv run python -m app"
+    {{compose}} run --service-ports {{service}} sh -c "sleep 1 && {{alembic}} upgrade head && uv run python -m app"
 
-migration *args: && down
-    docker compose run application sh -c "sleep 1 && uv run alembic upgrade head && uv run alembic revision --autogenerate {{ args }}"
+# Create a new migration
+migration *args:
+    {{compose}} run {{service}} sh -c "sleep 1 && {{alembic}} upgrade head && {{alembic}} revision --autogenerate {{args}}"
 
+# Build the application using Docker Buildx Bake
 build:
-    docker compose build application
+    docker buildx bake
 
+# Install dependencies
 install:
     uv lock --upgrade
     uv sync --all-extras --no-install-project --frozen
 
+# Lint the codebase
 lint:
     uv run ruff format .
     uv run ruff check . --fix
