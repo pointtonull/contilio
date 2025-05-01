@@ -1,27 +1,27 @@
 import typing
+import datetime
 
-import sqlalchemy as sa
-from advanced_alchemy.base import BigIntAuditBase, orm_registry
-from sqlalchemy import orm
+from sqlalchemy import Integer, String, DateTime, Index
+from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, DeclarativeBase
+from advanced_alchemy.base import orm_registry, BigIntAuditBase
 
 
 METADATA: typing.Final = orm_registry.metadata
-orm.DeclarativeBase.metadata = METADATA
+DeclarativeBase.metadata = METADATA
 
 
-class Deck(BigIntAuditBase):
-    __tablename__ = "decks"
-
-    name: orm.Mapped[str] = orm.mapped_column(sa.String, nullable=False)
-    description: orm.Mapped[str | None] = orm.mapped_column(sa.String, nullable=True)
-    cards: orm.Mapped[list["Card"]] = orm.relationship("Card", lazy="noload", uselist=True)
+class Stop(BigIntAuditBase):
+    __tablename__ = "stops"
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(256), nullable=False)
 
 
-class Card(BigIntAuditBase):
-    __tablename__ = "cards"
-    __table_args__ = (sa.UniqueConstraint("deck_id", "front", name="card_deck_id_front_uc"),)
+class Route(BigIntAuditBase):
+    __tablename__ = "routes"
 
-    front: orm.Mapped[str] = orm.mapped_column(sa.String, nullable=False)
-    back: orm.Mapped[str | None] = orm.mapped_column(sa.String, nullable=True)
-    hint: orm.Mapped[str | None] = orm.mapped_column(sa.String, nullable=True)
-    deck_id: orm.Mapped[int] = orm.mapped_column(sa.Integer, sa.ForeignKey("decks.id"))
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    hashed: Mapped[str] = mapped_column(String(256), nullable=False)
+    departure_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False)
+    arrival_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False)
+
+    __table_args__ = (Index("idx_hashed_departure_at", "hashed", "departure_at"),)

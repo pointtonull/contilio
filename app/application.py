@@ -7,7 +7,7 @@ from lite_bootstrap import FastAPIBootstrapper
 from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
 
 from app import exceptions
-from app.api.decks import ROUTER
+from app.api.routes import ROUTER
 from app.settings import settings
 
 

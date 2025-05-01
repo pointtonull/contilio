@@ -6,38 +6,38 @@ class Base(BaseModel):
     model_config = pydantic.ConfigDict(from_attributes=True)
 
 
-class CardBase(Base):
+class StopBase(Base):
     front: str
     back: str | None = None
     hint: str | None = None
 
 
-class CardCreate(CardBase):
+class StopCreate(StopBase):
     pass
 
 
-class Card(CardBase):
+class Stop(StopBase):
     id: PositiveInt
-    deck_id: PositiveInt | None = None
+    route_id: PositiveInt | None = None
 
 
-class Cards(Base):
-    items: list[Card]
+class Stops(Base):
+    items: list[Stop]
 
 
-class DeckBase(Base):
+class RouteBase(Base):
     name: str
     description: str | None = None
 
 
-class DeckCreate(DeckBase):
+class RouteCreate(RouteBase):
     pass
 
 
-class Deck(DeckBase):
+class Route(RouteBase):
     id: PositiveInt
-    cards: list[Card] | None
+    stops: list[Stop] | None
 
 
-class Decks(Base):
-    items: list[Deck]
+class Routes(Base):
+    items: list[Route]
