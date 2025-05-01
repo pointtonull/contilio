@@ -14,8 +14,8 @@ down:
     {{compose}} down --remove-orphans
 
 # Open a shell in the application container
-sh:
-    {{compose}} run --service-ports {{service}} bash
+sh *args:
+    {{compose}} run --service-ports {{service}} sh -c "{{args}}"
 
 # Run tests with database reset
 test *args:
@@ -23,7 +23,7 @@ test *args:
 
 # Run tests in test-driven development mode
 tdd:
-    {{compose}} run {{service}} sh -c "sleep 1 && {{alembic}} downgrade base && {{alembic}} upgrade head && {{watch}} '{{pytest}} --stepwise --no-cov-on-fail --tb=short'"
+    {{compose}} run {{service}} sh -c "sleep 1 && {{alembic}} downgrade base && {{alembic}} upgrade head && {{watch}} '{{pytest}} --stepwise --no-cov-on-fail --showlocals'"
 
 # Run the application
 run:
