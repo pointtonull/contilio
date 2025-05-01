@@ -518,6 +518,28 @@ wheels = [
 ]
 
 [[package]]
+name = "modern-di"
+version = "0.15.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/bc/8e/a469d59ba9e0606ca3fc73bcb761182211b96fd0492439de9fdd95e2bcd1/modern_di-0.15.0.tar.gz", hash = "sha256:b9cd61d03d17a4d2f9ad282898114680b4e9a922e5cfc7b0bade380c0755f8a2", size = 6917, upload-time = "2025-04-02T11:06:18.476Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a5/6a/578f5b1e8387ebf111ff98a6b18ae9cad7384532920f711130a65eb557ad/modern_di-0.15.0-py3-none-any.whl", hash = "sha256:cc35b8f6b6fdb75d6a7e2ef07cdfc37cc5baea6a2ce80691ae2e0b0521bd53ef", size = 15384, upload-time = "2025-04-02T11:06:17.62Z" },
+]
+
+[[package]]
+name = "modern-di-fastapi"
+version = "0.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "fastapi" },
+    { name = "modern-di" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/72/c1/020ced61c98a80e0a32938205d89974c00e31eddec714870e276e147114c/modern_di_fastapi-0.5.0.tar.gz", hash = "sha256:793210a0bdfbf3cb4e4d426070371aa0187cba8b331f20e7d12fa236488fc967", size = 2145, upload-time = "2025-04-19T10:01:39.235Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/44/2f/2d0e0268b54ecb71c29682130247f98484dedad19f0d72e255bf28fbb0a9/modern_di_fastapi-0.5.0-py3-none-any.whl", hash = "sha256:3908e91f953877db457341d22861e935d3d60454f44a3214addacaf0a9976432", size = 2586, upload-time = "2025-04-19T10:01:38.016Z" },
+]
+
+[[package]]
 name = "mypy"
 version = "1.15.0"
 source = { registry = "https://pypi.org/simple" }
