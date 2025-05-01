@@ -1,12 +1,6 @@
 # Current
 
-- [-] setup: replace PostgreSQL with SQLite
-- [-] setup: validate dev env: setup following readme
-- [-] setup: validate dev env
-- [ ] setup: test tests
-- [ ] setup: Dockerfile and docker-compose (no Postgres)
-- [ ] setup: FastAPI endpoint stub
-- [ ] setup: use granian for efficiency, multi-threading, and low latency
+- [-] setup: FastAPI endpoint stub
 - [ ] setup: SQLAlchemy models for train data
 - [ ] setup: schema to store API responses (station times)
 - [ ] setup: function to call TransportAPI
@@ -17,5 +11,14 @@
 - [ ] test: route with mocked API
 - [ ] test: error case with excessive wait
 - [x] setup: repository, and project structure
+- [x] setup: replace PostgreSQL with SQLite
+- [x] setup: validate dev env: setup following readme: install
+- [x] setup: validate dev env: setup following readme: lint
+- [x] setup: validate dev env: setup following readme: build
+- [x] setup: validate dev env: setup following readme: test
+- [x] setup: validate dev env
+- [x] setup: test tests
+- [x] setup: Dockerfile and docker-compose (no Postgres)
+- [x] setup: use granian for efficiency, multi-threading, and low latency
 
 # Archive
